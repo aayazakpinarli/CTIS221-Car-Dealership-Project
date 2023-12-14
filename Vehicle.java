@@ -11,6 +11,8 @@ public class Vehicle {
 	private String dateOfSale;
 	private String salesStatus = "on sale";
 	
+	// first command
+
 	public Vehicle() {
 		
 	}
