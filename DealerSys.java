@@ -1,3 +1,5 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -6,11 +8,55 @@ public class DealerSys {
 	protected static ArrayList<Dealer> dealers = new ArrayList<>();
 	protected static ArrayList<Customer> customers = new ArrayList<>();
 	protected static ArrayList<Vehicle> vehicles = new ArrayList<>();
+	private static final String SPLIT = "%";
 	
 	private static int numOfVehicles = 0;
 	private static int numOfCustomer = 0;
 	private static int numOfDealers = 0;
 	
+
+	public static void readFromFile() {
+
+		try {
+		File myObj = new File("Customer.txt");
+		Scanner myReader = new Scanner(myObj);
+		while (myReader.hasNextLine()) {
+			String[] data = myReader.nextLine().split(SPLIT);
+			System.out.println(data[0]);
+		}
+		myReader.close();
+		} catch (FileNotFoundException e) {
+		System.out.println("An error occurred.");
+		e.printStackTrace();
+		}
+
+		try {
+		File myObj = new File("Dealer.txt");
+		Scanner myReader = new Scanner(myObj);
+		while (myReader.hasNextLine()) {
+			String[] data = myReader.nextLine().split(SPLIT);
+			System.out.println(data[0]);
+		}
+		myReader.close();
+		} catch (FileNotFoundException e) {
+		System.out.println("An error occurred.");
+		e.printStackTrace();
+		}
+
+		try {
+		File myObj = new File("Vehicle.txt");
+		Scanner myReader = new Scanner(myObj);
+		while (myReader.hasNextLine()) {
+			String[] data = myReader.nextLine().split(SPLIT);
+			System.out.println(data[0]);
+		}
+		myReader.close();
+		} catch (FileNotFoundException e) {
+		System.out.println("An error occurred.");
+		e.printStackTrace();
+		}
+
+	}
 	
 	
 	
