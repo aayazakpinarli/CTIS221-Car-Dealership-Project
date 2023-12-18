@@ -7,10 +7,6 @@ public abstract class User {
 	private String address;
 	private String userType;
 	
-	
-	
-	
-	
 	public User() {
 		
 	}

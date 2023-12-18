@@ -6,7 +6,7 @@ import java.util.Date;
 public class Customer extends User {
 
 	private int carId;
-	private String serviceDate;
+	private String saleDate;
 	private double expense = 0;
 	
 	public Customer() {
@@ -16,9 +16,9 @@ public class Customer extends User {
 	public Customer(int carId, double expense) {
 		
 		this.carId = carId;
-		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 		Date date = new Date();
-		this.serviceDate = dateFormat.format(date);
+		this.saleDate = dateFormat.format(date);
 		this.expense = expense;
 	}
 
@@ -29,9 +29,9 @@ public class Customer extends User {
 	public Customer(int id, String nameSurname, String phoneNum, String address, String userType, int carId, double expense) {
 		super(id, nameSurname, phoneNum, address, userType);
 		this.carId = carId;
-		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 		Date date = new Date();
-		this.serviceDate = dateFormat.format(date);
+		this.saleDate = dateFormat.format(date);
 		this.expense = expense;
 	}
 
@@ -43,12 +43,12 @@ public class Customer extends User {
 		this.carId = carId;
 	}
 
-	public String getServiceDate() {
-		return serviceDate;
+	public String getsaleDate() {
+		return saleDate;
 	}
 
-	public void setServiceDate(String serviceDate) {
-		this.serviceDate = serviceDate;
+	public void setsaleDate(String saleDate) {
+		this.saleDate = saleDate;
 	}
 
 	public double getExpense() {
@@ -63,7 +63,7 @@ public class Customer extends User {
 	@Override
 	public String toString() {
 		return "Customer's Car Id = " + carId + 
-				"\nService Date = " + serviceDate + 
+				"\nService Date = " + saleDate + 
 				"\nExpense = " + expense + "\n";
 	}
 

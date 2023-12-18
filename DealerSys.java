@@ -195,14 +195,12 @@ public class DealerSys {
 		String brand = s.nextLine();
 		System.out.println("Enter model : ");
 		String model = s.nextLine();
-		System.out.println("Enter type : ");
-		String type = s.nextLine();
 		System.out.println("Enter model year : ");
 		int year = s.nextInt();
 		System.out.println("Enter price : ");
 		double price = s.nextDouble();		
 		
-		Vehicle c = new Vehicle(id, regNum, brand,model,type,year,price);
+		Vehicle c = new Vehicle(id, regNum, brand,model,year,price);
 		vehicles.add(c);
 		return true;
 	}

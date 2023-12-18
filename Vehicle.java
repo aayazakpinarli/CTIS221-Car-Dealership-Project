@@ -5,7 +5,6 @@ public class Vehicle {
 	private String registrationNumber;
 	private String brand;
 	private String model;
-	private String type;
 	private int modelYear;
 	private double price;
 	private String dateOfSale;
@@ -24,12 +23,11 @@ public class Vehicle {
 	}
 
 	public Vehicle(int id, String registrationNumber, String brand, 
-			String model, String type, int modelYear, double price) {
+			String model, int modelYear, double price) {
 		this.id = id;
 		this.registrationNumber = registrationNumber;
 		this.brand = brand;
 		this.model = model;
-		this.type = type;
 		this.modelYear = modelYear;
 		this.price = price;
 	}
@@ -64,14 +62,6 @@ public class Vehicle {
 
 	public void setModel(String model) {
 		this.model = model;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
 	}
 
 	public int getModelYear() {
@@ -112,7 +102,6 @@ public class Vehicle {
 				"\nRegistration Number = " + registrationNumber + 
 				"\nBrand = " + brand + 
 				"\nModel = " + model + 
-				"\nType=" + type + 
 				"\nModelYear = " + modelYear + 
 				"\nPrice = " + price + 
 				"\nDate Of Sale = "	+ dateOfSale + 
