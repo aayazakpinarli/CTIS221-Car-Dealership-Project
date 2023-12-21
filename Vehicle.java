@@ -1,3 +1,5 @@
+//package OtherClasses;
+
 
 public class Vehicle {
 		
@@ -10,7 +12,6 @@ public class Vehicle {
 	private String dateOfSale;
 	private String salesStatus;
 	
-	// first command
 
 	public Vehicle() {
 		

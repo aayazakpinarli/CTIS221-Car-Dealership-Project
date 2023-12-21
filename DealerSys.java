@@ -1,8 +1,16 @@
+//package MainandSystem;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.TreeSet;
+
+//import Comparators.CustomerComparatorById;
+//import InheritanceClasses.Customer;
+//import InheritanceClasses.Dealer;
+//import OtherClasses.Vehicle;
 
 public class DealerSys {
 
@@ -58,7 +66,7 @@ public class DealerSys {
 
 			if(!dateOfSale.equals("")){
 				v = new Vehicle(Integer.parseInt(data[0]), data[1],data[2], data[3], Integer.parseInt(data[4]),
-									 Double.parseDouble(data[5]),  "on sale", "sold");
+									 Double.parseDouble(data[5]), dateOfSale , "sold");
 			} else{
 				v = new Vehicle(Integer.parseInt(data[0]), data[1],data[2], data[3], Integer.parseInt(data[4]),
 								Double.parseDouble(data[5]), "", "on sale");
@@ -141,14 +149,24 @@ public class DealerSys {
 	}
 	
 	
-	public static String displayCustomers() {
-		Customer c;
-		String out = "";
-		for(int i = 0 ; i < customers.size() ; i++) {
-			c = customers.get(i);
-			out += c.toString() + "\n\n";
+	public static String displayCustomersById() {
+		TreeSet<Customer> ts = new TreeSet<Customer>(new CustomerComparatorById());
+		ts.addAll(customers);
+		String res = "";
+		for(Customer c : ts) {
+			res += c.toString() + "\n";
 		}
-		return out;
+		return res;
+	}
+	
+	public static String displayCustomersByExpense() {
+		TreeSet<Customer> ts = new TreeSet<Customer>();
+		ts.addAll(customers);
+		String res = "";
+		for(Customer c : ts) {
+			res += c.toString() + "\n";
+		}
+		return res;
 	}
 	
 	/*
@@ -205,6 +223,17 @@ public class DealerSys {
 				return c;
 		}
 		return null;
+	}
+	
+	public static Set<Dealer> searchDealer(String s) {
+		TreeSet<Dealer> ts = new TreeSet<Dealer>();
+		
+		for(Dealer d : ts) {
+			if(d.getAddress().equalsIgnoreCase(s))
+				ts.add(d);
+		}
+		return ts;
+		
 	}
 	
 	

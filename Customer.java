@@ -1,13 +1,15 @@
+//package InheritanceClasses;
+
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Customer extends User {
+public class Customer extends User implements Comparable<Customer> {
 
+	private double expense;
 	private int carId;
 	private String saleDate;
-	private double expense = 0;
 	
 	public Customer() {
 		
@@ -78,6 +80,11 @@ public class Customer extends User {
 		return super.toString() + "Customer's Car Id = " + carId + 
 				"\nSale Date = " + saleDate + 
 				"\nExpense = " + expense + "\n";
+	}
+
+	@Override
+	public int compareTo(Customer o) {
+		return (int) (o.getExpense() - expense);
 	}
 
 	

@@ -1,5 +1,6 @@
+//package InheritanceClasses;
 
-public class Dealer extends User {
+public class Dealer extends User implements Comparable<Dealer>{
 
 	private double income = 0;
 
@@ -23,9 +24,11 @@ public class Dealer extends User {
 	public String toString() {
 		return super.toString() + "Dealer Income = " + income + "\n";
 	}
-	
-	
-	
-	
+
+	@Override
+	public int compareTo(Dealer o) {
+		// TODO Auto-generated method stub
+		return (int) (income - o.getIncome());
+	}
 	
 }
