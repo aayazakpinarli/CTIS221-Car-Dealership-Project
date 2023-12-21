@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.TreeSet;
 
 public class DealerSys {
 
@@ -10,9 +11,6 @@ public class DealerSys {
 	protected static ArrayList<Vehicle> vehicles = new ArrayList<>();
 	private static final String SPLIT = "%";
 	
-	private static int numOfVehicles = 0;
-	private static int numOfCustomer = 0;
-	private static int numOfDealers = 0;
 	
 
 	public static void readFromFile() {
@@ -22,7 +20,12 @@ public class DealerSys {
 		Scanner myReader = new Scanner(myObj);
 		while (myReader.hasNextLine()) {
 			String[] data = myReader.nextLine().split(SPLIT);
-			System.out.println(data[0]);
+			Customer c = new Customer(Integer.parseInt(data[0]), 
+			data[1], data[2], data[3],
+			 "customer", 
+			 Integer.parseInt(data[4]), 
+			 Double.parseDouble(data[5]), data[6]);
+			customers.add(c);
 		}
 		myReader.close();
 		} catch (FileNotFoundException e) {
@@ -35,7 +38,8 @@ public class DealerSys {
 		Scanner myReader = new Scanner(myObj);
 		while (myReader.hasNextLine()) {
 			String[] data = myReader.nextLine().split(SPLIT);
-			System.out.println(data[0]);
+			Dealer d = new Dealer(Integer.parseInt(data[0]), data[1], data[2], data[3], "dealer");
+			dealers.add(d);
 		}
 		myReader.close();
 		} catch (FileNotFoundException e) {
@@ -48,7 +52,14 @@ public class DealerSys {
 		Scanner myReader = new Scanner(myObj);
 		while (myReader.hasNextLine()) {
 			String[] data = myReader.nextLine().split(SPLIT);
-			System.out.println(data[0]);
+			String dateOfSale = "";
+			//dateOfSale = findDateOfSale(Integer.parseInt(data[0]));
+
+
+			Vehicle v = new Vehicle(Integer.parseInt(data[0]), data[1],data[2], data[3], Integer.parseInt(data[4]),
+									 Double.parseDouble(data[5]),  dateOfSale, "sold");
+			vehicles.add(v);
+
 		}
 		myReader.close();
 		} catch (FileNotFoundException e) {
@@ -57,9 +68,17 @@ public class DealerSys {
 		}
 
 	}
-	
-	
-	
+	/*
+	public static String findDateOfSale(int id){
+		TreeSet<Customer> ts = new TreeSet<Customer>();
+
+		for(Customer c : ts) {
+			if(c.getCarId() == id)
+				return c.getsaleDate();
+		}
+		return null;
+	}
+	*/
 	public static boolean checkCustomerId(int id) {
 		Customer c;
 		for(int i = 0 ; i < customers.size() ; i++) {
@@ -92,7 +111,7 @@ public class DealerSys {
 	}
 
 	
-	private static Customer searchCustomer(int id) {
+	public static Customer searchCustomer(int id) {
 		Customer c;
 		for(int i = 0 ; i < customers.size() ; i++) {
 			c = customers.get(i);
@@ -103,7 +122,7 @@ public class DealerSys {
 	}
 	
 	
-	private static Customer deleteCustomer(int id) {
+	public static Customer deleteCustomer(int id) {
 		Customer c;
 		for(int i = 0 ; i < customers.size() ; i++) {
 			c = customers.get(i);
@@ -117,12 +136,12 @@ public class DealerSys {
 	}
 	
 	
-	private static String displayCustomers() {
+	public static String displayCustomers() {
 		Customer c;
 		String out = "";
 		for(int i = 0 ; i < customers.size() ; i++) {
 			c = customers.get(i);
-			out += c + "\n\n";
+			out += c.toString() + "\n\n";
 		}
 		return out;
 	}
@@ -173,7 +192,7 @@ public class DealerSys {
 	}
 	
 	
-	private static Dealer searchDealer(int id) {
+	public static Dealer searchDealer(int id) {
 		Dealer c;
 		for(int i = 0 ; i < dealers.size() ; i++) {
 			c = dealers.get(i);
@@ -184,7 +203,7 @@ public class DealerSys {
 	}
 	
 	
-	private static Dealer deleteDealer(int id) {
+	public static Dealer deleteDealer(int id) {
 		Dealer c;
 		for(int i = 0 ; i < dealers.size() ; i++) {
 			c = dealers.get(i);
@@ -198,12 +217,12 @@ public class DealerSys {
 	}
 	
 	
-	private static String displayDealer() {
+	public static String displayDealer() {
 		Dealer c;
 		String out = "";
 		for(int i = 0 ; i < dealers.size() ; i++) {
 			c = dealers.get(i);
-			out += c + "\n\n";
+			out += c.toString() + "\n\n";
 		}
 		return out;
 	}
@@ -252,7 +271,7 @@ public class DealerSys {
 	}
 
 	
-	private static Vehicle searchVehicle(int id) {
+	public static Vehicle searchVehicle(int id) {
 		Vehicle c;
 		for(int i = 0 ; i < vehicles.size() ; i++) {
 			c = vehicles.get(i);
@@ -263,7 +282,7 @@ public class DealerSys {
 	}
 	
 	
-	private static Vehicle deletVehicle(int id) {
+	public static Vehicle deletVehicle(int id) {
 		Vehicle c;
 		for(int i = 0 ; i < vehicles.size() ; i++) {
 			c = vehicles.get(i);
@@ -277,12 +296,12 @@ public class DealerSys {
 	}
 	
 	
-	private static String displayVehicle() {
+	public static String displayVehicle() {
 		Vehicle c;
 		String out = "";
 		for(int i = 0 ; i < vehicles.size() ; i++) {
 			c = vehicles.get(i);
-			out += c + "\n\n";
+			out += c.toString() + "\n\n";
 		}
 		return out;
 	}
