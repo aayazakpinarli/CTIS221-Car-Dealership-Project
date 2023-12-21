@@ -76,8 +76,7 @@ public abstract class User {
 		return "User id = " + id + 
 				"\nName Surname = " + nameSurname + 
 				"\nPhone Number = " + phoneNum + 
-				"\nAddress = " + address
-				+ "\nUser Type = " + userType + "\n";
+				"\nAddress = " + address + "\n";
 	}
 	
 }
