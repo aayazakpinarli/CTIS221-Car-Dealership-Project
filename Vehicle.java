@@ -112,24 +112,24 @@ public class Vehicle {
 
 	@Override
 	public String toString() {
-		return  "Vehicle Id = " + id +
-				"\nRegistration Number = " + registrationNumber + 
-				"\nBrand = " + brand + 
-				"\nModel = " + model + 
-				"\nModelYear = " + modelYear + 
-				"\nPrice = " + price + 
-				"\nDate Of Sale = "	+ dateOfSale + 
-				"\nSales Status = " + salesStatus + "\n";
+		if(dateOfSale.equals(""))
+			return  "Vehicle Id = " + id +
+					"\nRegistration Number = " + registrationNumber + 
+					"\nBrand = " + brand + 
+					"\nModel = " + model + 
+					"\nModelYear = " + modelYear + 
+					"\nPrice = " + price + 
+					"\nSales Status = " + salesStatus + "\n";
+		else
+			return  "Vehicle Id = " + id +
+					"\nRegistration Number = " + registrationNumber + 
+					"\nBrand = " + brand + 
+					"\nModel = " + model + 
+					"\nModelYear = " + modelYear + 
+					"\nPrice = " + price + 
+					"\nDate Of Sale = "	+ dateOfSale + 
+					"\nSales Status = " + salesStatus + "\n";
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 }

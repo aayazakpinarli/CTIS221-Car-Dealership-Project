@@ -76,7 +76,7 @@ public class Customer extends User {
 	@Override
 	public String toString() {
 		return super.toString() + "Customer's Car Id = " + carId + 
-				"\nService Date = " + saleDate + 
+				"\nSale Date = " + saleDate + 
 				"\nExpense = " + expense + "\n";
 	}
 

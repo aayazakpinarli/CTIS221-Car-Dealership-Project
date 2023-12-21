@@ -53,11 +53,16 @@ public class DealerSys {
 		while (myReader.hasNextLine()) {
 			String[] data = myReader.nextLine().split(SPLIT);
 			String dateOfSale = "";
-			//dateOfSale = findDateOfSale(Integer.parseInt(data[0]));
+			dateOfSale = findDateOfSale(Integer.parseInt(data[0]));
+			Vehicle v = null;
 
-
-			Vehicle v = new Vehicle(Integer.parseInt(data[0]), data[1],data[2], data[3], Integer.parseInt(data[4]),
-									 Double.parseDouble(data[5]),  dateOfSale, "sold");
+			if(!dateOfSale.equals("")){
+				v = new Vehicle(Integer.parseInt(data[0]), data[1],data[2], data[3], Integer.parseInt(data[4]),
+									 Double.parseDouble(data[5]),  "on sale", "sold");
+			} else{
+				v = new Vehicle(Integer.parseInt(data[0]), data[1],data[2], data[3], Integer.parseInt(data[4]),
+								Double.parseDouble(data[5]), "", "on sale");
+			}
 			vehicles.add(v);
 
 		}
@@ -68,17 +73,17 @@ public class DealerSys {
 		}
 
 	}
-	/*
+	
 	public static String findDateOfSale(int id){
-		TreeSet<Customer> ts = new TreeSet<Customer>();
-
-		for(Customer c : ts) {
+		String res = "";
+		for(Customer c : customers) {
 			if(c.getCarId() == id)
-				return c.getsaleDate();
+				res += c.getsaleDate();
 		}
-		return null;
+		return res;
 	}
-	*/
+
+
 	public static boolean checkCustomerId(int id) {
 		Customer c;
 		for(int i = 0 ; i < customers.size() ; i++) {
