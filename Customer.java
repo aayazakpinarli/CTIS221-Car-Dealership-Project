@@ -22,16 +22,29 @@ public class Customer extends User {
 		this.expense = expense;
 	}
 
-	public Customer(int id, String nameSurname, String phoneNum, String address, String userType) {
+	public Customer(int id, String nameSurname, String phoneNum, String address,
+					 String userType) {
+
 		super(id, nameSurname, phoneNum, address, userType);
 	}
 	
-	public Customer(int id, String nameSurname, String phoneNum, String address, String userType, int carId, double expense) {
+	public Customer(int id, String nameSurname, String phoneNum, String address, 
+					String userType, int carId, double expense) {
+
 		super(id, nameSurname, phoneNum, address, userType);
 		this.carId = carId;
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 		Date date = new Date();
 		this.saleDate = dateFormat.format(date);
+		this.expense = expense;
+	}
+
+	public Customer(int id, String nameSurname, String phoneNum, String address, 
+					String userType, int carId, double expense, String date) {
+						
+		super(id, nameSurname, phoneNum, address, userType);
+		this.carId = carId;
+		this.saleDate = date;
 		this.expense = expense;
 	}
 
@@ -62,7 +75,7 @@ public class Customer extends User {
 	
 	@Override
 	public String toString() {
-		return "Customer's Car Id = " + carId + 
+		return super.toString() + "Customer's Car Id = " + carId + 
 				"\nService Date = " + saleDate + 
 				"\nExpense = " + expense + "\n";
 	}
