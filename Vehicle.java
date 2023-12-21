@@ -8,7 +8,7 @@ public class Vehicle {
 	private int modelYear;
 	private double price;
 	private String dateOfSale;
-	private String salesStatus = "on sale";
+	private String salesStatus;
 	
 	// first command
 
@@ -24,12 +24,26 @@ public class Vehicle {
 
 	public Vehicle(int id, String registrationNumber, String brand, 
 			String model, int modelYear, double price) {
+		
 		this.id = id;
 		this.registrationNumber = registrationNumber;
 		this.brand = brand;
 		this.model = model;
 		this.modelYear = modelYear;
 		this.price = price;
+	}
+
+	public Vehicle(int id, String registrationNumber, String brand, 
+		String model, int modelYear, double price, String dateOfSale, String salesStatus) {
+
+		this.id = id;
+		this.registrationNumber = registrationNumber;
+		this.brand = brand;
+		this.model = model;
+		this.modelYear = modelYear;
+		this.price = price;
+		this.dateOfSale = dateOfSale;
+		this.salesStatus = salesStatus;
 	}
 
 	public int getId() {
@@ -98,7 +112,7 @@ public class Vehicle {
 
 	@Override
 	public String toString() {
-		return "Vehicle Id = " + id +
+		return  "Vehicle Id = " + id +
 				"\nRegistration Number = " + registrationNumber + 
 				"\nBrand = " + brand + 
 				"\nModel = " + model + 
