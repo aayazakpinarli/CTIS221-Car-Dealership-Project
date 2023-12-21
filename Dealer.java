@@ -21,7 +21,7 @@ public class Dealer extends User {
 
 	@Override
 	public String toString() {
-		return "Dealer Income = " + income + "\n";
+		return super.toString() + "Dealer Income = " + income + "\n";
 	}
 	
 	
