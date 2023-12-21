@@ -66,7 +66,7 @@ public class DealerSys {
 
 			if(!dateOfSale.equals("")){
 				v = new Vehicle(Integer.parseInt(data[0]), data[1],data[2], data[3], Integer.parseInt(data[4]),
-									 Double.parseDouble(data[5]), dateOfSale , "sold");
+									 Double.parseDouble(data[5]),  "on sale", "sold");
 			} else{
 				v = new Vehicle(Integer.parseInt(data[0]), data[1],data[2], data[3], Integer.parseInt(data[4]),
 								Double.parseDouble(data[5]), "", "on sale");
@@ -102,6 +102,16 @@ public class DealerSys {
 		return false;
 	}
 	
+	public static String displayCustomersCar(int id) {
+		String res = "";
+		for(Customer c : customers) {
+			if(c.getId() == id) {
+				if(DealerSys.searchVehicle(c.getCarId()) != null)
+					res += DealerSys.searchVehicle(c.getCarId()); 
+			}
+		}
+		return res;
+	}
 	
 	public static boolean addCustomer() {
 		Scanner s = new Scanner(System.in);
