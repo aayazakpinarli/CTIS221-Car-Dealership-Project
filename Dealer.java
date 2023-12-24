@@ -3,13 +3,13 @@
 public class Dealer extends User implements Comparable<Dealer>{
 
 	private double income = 0;
-
+	
 	public Dealer() {
 		
 	}
 
-	public Dealer(int id, String nameSurname, String phoneNum, String address, String userType) {
-		super(id, nameSurname, phoneNum, address, userType);
+	public Dealer(int id, String nameSurname, String phoneNum, String address, String userType, String password) {
+		super(id, nameSurname, phoneNum, address, userType, password);
 	}
 	
 	public double getIncome() {
@@ -30,5 +30,9 @@ public class Dealer extends User implements Comparable<Dealer>{
 		// TODO Auto-generated method stub
 		return (int) (income - o.getIncome());
 	}
+	
+	
+	
+	
 	
 }
