@@ -230,6 +230,12 @@ public class AddUserFrame extends JFrame {
 		contentPane.add(signUpButton);
 		
 		closeButton = new JButton("Close");
+		closeButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mf.setVisible(true);
+				dispose();
+			}
+		});
 		closeButton.setBounds(337, 32, 85, 21);
 		contentPane.add(closeButton);
 		
