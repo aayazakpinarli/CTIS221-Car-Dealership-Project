@@ -2,7 +2,10 @@
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeSet;
@@ -11,10 +14,11 @@ import java.util.TreeSet;
 //import InheritanceClasses.Customer;
 //import InheritanceClasses.Dealer;
 //import OtherClasses.Vehicle;
+//import OtherClasses.Wallet;
 
 public class DealerSys {
 
-	protected static ArrayList<Dealer> dealers = new ArrayList<>();
+	protected static LinkedHashMap<Dealer,ArrayList<Vehicle>> dealers = new LinkedHashMap<Dealer, ArrayList<Vehicle>>();
 	protected static ArrayList<Customer> customers = new ArrayList<>();
 	protected static ArrayList<Vehicle> vehicles = new ArrayList<>();
 	private static final String SPLIT = "%";
@@ -28,11 +32,11 @@ public class DealerSys {
 		Scanner myReader = new Scanner(myObj);
 		while (myReader.hasNextLine()) {
 			String[] data = myReader.nextLine().split(SPLIT);
+			Wallet w = new Wallet(Double.parseDouble(data[5]), Double.parseDouble(data[6]));
 			Customer c = new Customer(Integer.parseInt(data[0]), 
 			data[1], data[2], data[3],
 			 "customer", 
-			 Integer.parseInt(data[4]), 
-			 Double.parseDouble(data[5]), data[6]);
+			 Integer.parseInt(data[4]), w , data[7], data[8]);
 			customers.add(c);
 		}
 		myReader.close();
@@ -40,57 +44,109 @@ public class DealerSys {
 		System.out.println("An error occurred.");
 		e.printStackTrace();
 		}
+		
+		try {
+			File myObj = new File("Vehicle.txt");
+			Scanner myReader = new Scanner(myObj);
+			while (myReader.hasNextLine()) {
+				String[] data = myReader.nextLine().split(SPLIT);
+				String dateOfSale = "";
+				dateOfSale = findDateOfSale(Integer.parseInt(data[0]));
+				Vehicle v = null;
+
+				if(!dateOfSale.equals("")){
+					v = new Vehicle(Integer.parseInt(data[0]), data[1],data[2], data[3], Integer.parseInt(data[4]),
+										 Double.parseDouble(data[5]),  "on sale", "sold");
+				} else{
+					v = new Vehicle(Integer.parseInt(data[0]), data[1],data[2], data[3], Integer.parseInt(data[4]),
+									Double.parseDouble(data[5]), "", "on sale");
+				}
+				vehicles.add(v);
+
+			}
+			myReader.close();
+			} catch (FileNotFoundException e) {
+			System.out.println("An error occurred.");
+			e.printStackTrace();
+			}
 
 		try {
 		File myObj = new File("Dealer.txt");
 		Scanner myReader = new Scanner(myObj);
 		while (myReader.hasNextLine()) {
 			String[] data = myReader.nextLine().split(SPLIT);
-			Dealer d = new Dealer(Integer.parseInt(data[0]), data[1], data[2], data[3], "dealer");
-			dealers.add(d);
-		}
-		myReader.close();
-		} catch (FileNotFoundException e) {
-		System.out.println("An error occurred.");
-		e.printStackTrace();
-		}
-
-		try {
-		File myObj = new File("Vehicle.txt");
-		Scanner myReader = new Scanner(myObj);
-		while (myReader.hasNextLine()) {
-			String[] data = myReader.nextLine().split(SPLIT);
-			String dateOfSale = "";
-			dateOfSale = findDateOfSale(Integer.parseInt(data[0]));
-			Vehicle v = null;
-
-			if(!dateOfSale.equals("")){
-				v = new Vehicle(Integer.parseInt(data[0]), data[1],data[2], data[3], Integer.parseInt(data[4]),
-									 Double.parseDouble(data[5]),  "on sale", "sold");
-			} else{
-				v = new Vehicle(Integer.parseInt(data[0]), data[1],data[2], data[3], Integer.parseInt(data[4]),
-								Double.parseDouble(data[5]), "", "on sale");
+			Dealer d = new Dealer(Integer.parseInt(data[0]), data[1], data[2], data[3], "dealer", data[4]);
+			ArrayList<Vehicle> alAnkara = new ArrayList<>();
+			ArrayList<Vehicle> alIstanbul = new ArrayList<>();
+			ArrayList<Vehicle> alIzmir = new ArrayList<>();
+			for(Vehicle v : vehicles) {
+				if(v.getId() <= 699 && v.getId() > 600)
+					alAnkara.add(v);
+				if(v.getId() <= 3499 && v.getId() > 3400)
+					alIstanbul.add(v);
+				if(v.getId() <= 3599 && v.getId() > 3500)
+					alIzmir.add(v);
 			}
-			vehicles.add(v);
-
+			if(d.getId() == 6)
+				dealers.put(d,alAnkara);
+			else if(d.getId() == 34)
+				dealers.put(d, alIstanbul);
+			else if(d.getId() == 35)
+				dealers.put(d, alIzmir);
 		}
 		myReader.close();
 		} catch (FileNotFoundException e) {
 		System.out.println("An error occurred.");
 		e.printStackTrace();
 		}
+
+	
 
 	}
 	
 	public static String findDateOfSale(int id){
 		String res = "";
+		ArrayList<Integer> al = null;
 		for(Customer c : customers) {
-			if(c.getCarId() == id)
-				res += c.getsaleDate();
+			al = c.getCarId();
+			for(Integer ids : al) {
+				if(ids == id)
+					res += c.getsaleDate();
+			}
 		}
 		return res;
 	}
 
+	public static String searchId(int id) {
+		Customer c;
+		for(int i = 0 ; i < customers.size() ; i++) {
+			c = customers.get(i);
+			if(id == c.getId())
+				return "customer";
+		}
+		
+		
+		Set<Dealer> keyId = dealers.keySet();
+		Dealer d;
+		Iterator<Dealer> it = keyId.iterator();
+		while(it.hasNext()) {
+			d = it.next();
+			if(id == d.getId())
+				return "dealer";
+		}
+		
+		return null;
+	}
+	
+	
+	public static void addMoneyToWallet(int customerId, String money) {
+		double m = Double.parseDouble(money);
+		for(Customer c : customers) {
+			if(c.getId() == customerId) {
+				c.addWallet(m);
+			}
+		}
+	}
 
 	public static boolean checkCustomerId(int id) {
 		Customer c;
@@ -104,33 +160,36 @@ public class DealerSys {
 	
 	public static String displayCustomersCar(int id) {
 		String res = "";
-		for(Customer c : customers) {
-			if(c.getId() == id) {
-				if(DealerSys.searchVehicle(c.getCarId()) != null)
-					res += DealerSys.searchVehicle(c.getCarId()); 
-			}
-		}
+		ArrayList<Integer> al = null;
+		Customer c = searchCustomer(id);
+
+		al = c.getCarId();
+		for(Integer ids : al) 
+			res += DealerSys.searchVehicle(ids).toString() + "\n\n"; 
+		
 		return res;
 	}
 	
-	public static boolean addCustomer() {
-		Scanner s = new Scanner(System.in);
-		System.out.println("Enter customer id : ");
-		int id = s.nextInt();
-		while(checkCustomerId(id)) {
-			System.out.println("The id has been given already.");
-			System.out.println("Please enter new id : ");
-			id = s.nextInt();
+	public static int addCustomer( String name, String phone, String address, String password, String walletMoney) {
+
+		boolean flag = true;
+		int id = (int)Math.floor(Math.random() * 35 + 100);
+		Customer c = null;
+		
+		while(flag) {
+			flag = false;
+			for(int i = 0 ; i < customers.size() ; i++) {
+				c = customers.get(i);
+				if(c.getId() == id) {
+					flag = true;
+					id = (int)Math.floor(Math.random() * 35 + 100);
+				}
+			}
 		}
-		System.out.println("Enter customer name and surname (name,surname) : ");
-		String name = s.nextLine();
-		System.out.println("Enter customer phone number : ");
-		String phone = s.nextLine();
-		System.out.println("Enter customer address : ");
-		String address = s.nextLine();
-		Customer c = new Customer(id,name,phone,address, "customer");
-		customers.add(c);
-		return true;
+
+		Customer newCustomer = new Customer(id,name,phone,address, "customer", password, Double.parseDouble(walletMoney));
+		customers.add(newCustomer);
+		return id;
 	}
 
 	
@@ -161,11 +220,14 @@ public class DealerSys {
 	
 	public static String displayCustomersById() {
 		TreeSet<Customer> ts = new TreeSet<Customer>(new CustomerComparatorById());
+		
 		ts.addAll(customers);
 		String res = "";
+		
 		for(Customer c : ts) {
 			res += c.toString() + "\n";
 		}
+		
 		return res;
 	}
 	
@@ -179,96 +241,229 @@ public class DealerSys {
 		return res;
 	}
 	
-	/*
-		private static boolean buyVehicle() {
-		Scanner s = new Scanner(System.in);
+	public static String dipslayDealersCar(Dealer d) {
+		String res = "";
 		
-		
-		return true;
-	}*/
+		ArrayList<Vehicle> v = dealers.get(d);
+		for(Vehicle c : v) {
+			res += c.toString() + "\n";
+		}
+
+		return res;
+	}
 	
+	public static String getCustomersMoney(int id) {
+		Double money = 0.0;
+		Customer c = searchCustomer(id);
+		if(c != null) {
+			money += c.getWallet().getMoney();
+		}
+		
+		return money.toString();
+	}
+	
+
+	public static void buyVehicleToCustomer(int customerId, int vehicleid) {
+		
+		// find vehicle and change status
+		Vehicle v = searchVehicle(vehicleid);
+		v.setSalesStatus("sold");
+		
+		
+		// find the customer and add the car 
+		Customer c = searchCustomer(customerId);
+		c.getWallet().purchase(v.getPrice());
+		c.setCarId(v.getId());
+		
+		
+		// find the dealer who sale the cars
+		// add its income
+		ArrayList<Vehicle> vh = null;
+		Set<Dealer>  keys= dealers.keySet();
+		for(Dealer d : keys) {
+				vh = dealers.get(d);
+				for(Vehicle newvh : vh) {
+					if(newvh.getId() == vehicleid) {
+						v.setSalesStatus("sold");
+						LocalDate date = LocalDate.now();
+						v.setDateOfSale(date.toString());
+						d.addToIncome(v.getPrice());
+					}
+				}
+		}
+	}	
+	
+	
+	
+		
+	
+	
+	public static void changeAddress(Object c, String res) {
+		if(c instanceof Customer)
+			((Customer) c).setAddress(res);
+		else
+			((Dealer) c).setAddress(res);
+	}
+	
+	public static boolean changePassword(Object c, String oldPass, String newPass) {
+		if(c instanceof Customer) {
+			if(oldPass.equals(((Customer) c).getPassword())) {
+				((Customer) c).setPassword(newPass);
+				return true;
+			}
+		} else if(c instanceof Dealer) {
+			if(oldPass.equals(((Dealer) c).getPassword())) {
+				((Dealer) c).setPassword(newPass);
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public static void changePhoneNumber(Object c, String phone) {
+		if(c instanceof Customer) {
+			((Customer) c).setPhoneNum(phone);	
+		} else if(c instanceof Dealer){
+			((Dealer) c).setPhoneNum(phone);
+		}
+	}
 	
 	
 	public static boolean checkDealerId(int id) {
-		Dealer c;
-		for(int i = 0 ; i < dealers.size() ; i++) {
-			c = dealers.get(i);
-			if(id == c.getId())
+		Set<Dealer> keyId = dealers.keySet();
+		Iterator<Dealer> it = keyId.iterator();
+		Dealer d;
+		
+		while(it.hasNext()) {
+			d = it.next();
+			if(id == d.getId())
 				return true;
 		}
 		return false;
 	}
 	
 	
-	public static boolean addDealer() {
-		Scanner s = new Scanner(System.in);
-		System.out.println("Enter dealer id : ");
-		int id = s.nextInt();
-		while(checkDealerId(id)) {
-			System.out.println("The id has been given already.");
-				System.out.println("Do you want to continue? (y/n) : ");
-				String ch = s.next();
-				if(ch.equalsIgnoreCase("n"))
-					return false;
-			System.out.println("Please enter new id : ");
-			id = s.nextInt();
+	public static int addDealer(String name, String phone, String address, String password) {
+		
+		ArrayList<Vehicle> v = new ArrayList<>();
+		int id = (int)Math.floor(Math.random() * 35 + 1);
+		Set<Dealer> d = dealers.keySet();
+		boolean flag = true;
+		while(flag) {
+			flag = false;
+			for(Dealer c : d) {
+				if(c.getId() == id) {
+					flag = true;
+					id = (int)Math.floor(Math.random() * (35 - 1 + 1) + 1);
+				}
+			}
+			d = dealers.keySet();
 		}
-		System.out.println("Enter dealer name and surname (name,surname) : ");
-		String name = s.nextLine();
-		System.out.println("Enter dealer phone number : ");
-		String phone = s.nextLine();
-		System.out.println("Enter dealer address : ");
-		String address = s.nextLine();
-		Dealer c = new Dealer(id,name,phone,address, "dealer");
-		dealers.add(c);
-		return true;
+		
+		Dealer newDealer = new Dealer(id,name,phone,address, "dealer", password);
+		dealers.put(newDealer, v);
+		
+		return id;
+		
 	}
 	
-	
-	public static Dealer searchDealer(int id) {
-		Dealer c;
-		for(int i = 0 ; i < dealers.size() ; i++) {
-			c = dealers.get(i);
-			if(id == c.getId())
-				return c;
+	public static Dealer searchDealer(String s) {
+		Set<Dealer> keyId = dealers.keySet();
+		Iterator<Dealer> it = keyId.iterator();
+		Dealer d;
+		while(it.hasNext()) {
+			d = it.next();
+			if(Integer.parseInt(s) == d.getId())
+			{
+				return d;
+			}
 		}
 		return null;
 	}
 	
-	public static Set<Dealer> searchDealer(String s) {
-		TreeSet<Dealer> ts = new TreeSet<Dealer>();
-		
-		for(Dealer d : ts) {
-			if(d.getAddress().equalsIgnoreCase(s))
-				ts.add(d);
-		}
-		return ts;
-		
-	}
-	
 	
 	public static Dealer deleteDealer(int id) {
-		Dealer c;
-		for(int i = 0 ; i < dealers.size() ; i++) {
-			c = dealers.get(i);
-			if(id == c.getId())
-			{
-				dealers.remove(i);
-				return c;
-			}
+		Integer idn = id;
+		Dealer d = searchDealer(idn.toString());
+		if(d != null) {
+			dealers.remove(d);
+			return d;
 		}
+
 		return null;	
 	}
 	
 	
 	public static String displayDealer() {
-		Dealer c;
+		
 		String out = "";
-		for(int i = 0 ; i < dealers.size() ; i++) {
-			c = dealers.get(i);
-			out += c.toString() + "\n\n";
+		Dealer d;
+		Set<Dealer> keyId = dealers.keySet();
+		Iterator<Dealer> it = keyId.iterator(); 
+		while(it.hasNext()) {
+			d = it.next();
+			out += d.toString() + "\n\n";
 		}
+
 		return out;
+	}
+	
+	public static String displayDealersRevenue(Dealer d) {
+		Double revenue = d.getIncome();
+		String out =  d.getNameSurname() + "\n" + "Your revenue = " + revenue.toString();
+		return out;
+	}
+	
+	public static String displayDealersCars(Dealer k) {
+		String res = "";
+		ArrayList<Vehicle> vh = null;
+		Set<Dealer>  keys= dealers.keySet();
+		for(Dealer d : keys) {
+			if(d.getId() == k.getId()) {
+				vh = dealers.get(d);
+				for(Vehicle newvh : vh) {
+					res += newvh.toString() + "\n";
+				}
+			}
+		}
+		return res;
+	}
+	
+	public static boolean addDealersCar(Dealer d, String regNum, String brand, String model, int modelYear, double price) {
+		
+		// find new car id
+		boolean flag = true;
+		int id = (int)Math.floor(Math.random() * 3500 + 601);
+		Vehicle c = null;
+		
+		while(flag) {
+			flag = false;
+			for(int i = 0 ; i < vehicles.size() ; i++) {
+				c = vehicles.get(i);
+				if(c.getId() == id) {
+					flag = true;
+					id = (int)Math.floor(Math.random()  * 3500 + 601);
+				}
+			}
+		}
+			
+		Vehicle v = new Vehicle(id, regNum,brand,model,modelYear,price);
+		
+		Set<Dealer> keys= dealers.keySet();
+		for(Dealer k : keys) {
+			if(d.getId() == k.getId()) {
+				ArrayList<Vehicle> vh = dealers.get(k);
+				vh.add(v);
+				
+				//add to vehicle list
+				vehicles.add(v);
+				
+				return true;
+			}
+		}
+
+		return false;
 	}
 	
 	
@@ -283,38 +478,6 @@ public class DealerSys {
 	}
 	
 	
-	public static boolean addVehicle() {
-		Scanner s = new Scanner(System.in);
-		System.out.println("Enter vehicle id : ");
-		int id = s.nextInt();
-		while(checkCustomerId(id)) {
-			System.out.println("The id has been given already.");
-
-			System.out.println("Do you want to continue? (y/n) : ");
-			String ch = s.next();
-			if(ch.equalsIgnoreCase("n"))
-				return false;
-			
-			System.out.println("Please enter new id : ");
-			id = s.nextInt();
-		}
-		System.out.println("Enter registration number : ");
-		String regNum = s.nextLine();
-		System.out.println("Enter brand : ");
-		String brand = s.nextLine();
-		System.out.println("Enter model : ");
-		String model = s.nextLine();
-		System.out.println("Enter model year : ");
-		int year = s.nextInt();
-		System.out.println("Enter price : ");
-		double price = s.nextDouble();		
-		
-		Vehicle c = new Vehicle(id, regNum, brand,model,year,price);
-		vehicles.add(c);
-		return true;
-	}
-
-	
 	public static Vehicle searchVehicle(int id) {
 		Vehicle c;
 		for(int i = 0 ; i < vehicles.size() ; i++) {
@@ -323,20 +486,6 @@ public class DealerSys {
 				return c;
 		}
 		return null;
-	}
-	
-	
-	public static Vehicle deletVehicle(int id) {
-		Vehicle c;
-		for(int i = 0 ; i < vehicles.size() ; i++) {
-			c = vehicles.get(i);
-			if(id == c.getId())
-			{
-				vehicles.remove(i);
-				return c;
-			}
-		}
-		return null;	
 	}
 	
 	
@@ -351,20 +500,31 @@ public class DealerSys {
 	}
 	
 	
+	public static String displayVehicleonSale() {
+		Vehicle c;
+		String out = "";
+		for(int i = 0 ; i < vehicles.size() ; i++) {
+			c = vehicles.get(i);
+			if(c.getSalesStatus().equalsIgnoreCase("on sale"))
+				out += c.toString() + "\n\n";
+		}
+		return out;
+	}
 	
-	public static boolean addUser() {
-		Scanner s = new Scanner(System.in);
-		boolean res = false;
-		System.out.println("Enter user type : ");
-		String type = s.next();
-		
-		if(type.equalsIgnoreCase("customer"))
-			res = addCustomer();
-		else if(type.equalsIgnoreCase("dealer"))
-			res = addDealer();
-		
-		return res;
-		
+	
+	public static String[] getVehicleIdonSale() {
+		Vehicle c;
+
+		String[] out = new String[vehicles.size()];
+		int k = 0;
+		for(int i = 0 ; i < vehicles.size() ; i++) {
+			c = vehicles.get(i);
+			if(c.getSalesStatus().equalsIgnoreCase("on sale")) {
+				out[k] = c.getId() + "";
+				k++;
+			}
+		}
+		return out;
 	}
 	
 }
