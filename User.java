@@ -8,18 +8,20 @@ public abstract class User {
 	private String phoneNum;
 	private String address;
 	private String userType;
+	private String password;
 	
 	public User() {
 		
 	}
 
 
-	public User(int id, String nameSurname, String phoneNum, String address, String userType) {
+	public User(int id, String nameSurname, String phoneNum, String address, String userType, String password) {
 		this.id = id;
 		this.nameSurname = nameSurname;
 		this.phoneNum = phoneNum;
 		this.address = address;
 		this.userType = userType;
+		this.password = password;
 	}
 
 
@@ -70,6 +72,15 @@ public abstract class User {
 
 	public void setUserType(String userType) {
 		this.userType = userType;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 
