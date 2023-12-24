@@ -32,6 +32,8 @@ public class Vehicle {
 		this.model = model;
 		this.modelYear = modelYear;
 		this.price = price;
+		this.dateOfSale = "";
+		this.salesStatus = "on sale";
 	}
 
 	public Vehicle(int id, String registrationNumber, String brand, 
@@ -128,8 +130,7 @@ public class Vehicle {
 					"\nModel = " + model + 
 					"\nModelYear = " + modelYear + 
 					"\nPrice = " + price + 
-					"\nDate Of Sale = "	+ dateOfSale + 
-					"\nSales Status = " + salesStatus + "\n";
+					"\nDate Of Sale = "	+ dateOfSale + "\n";
 	}
 
 	
