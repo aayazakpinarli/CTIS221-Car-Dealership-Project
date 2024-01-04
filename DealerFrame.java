@@ -20,9 +20,9 @@ import java.awt.Font;
 public class DealerFrame extends JFrame {
 
 	private JPanel contentPane;
-	MainFrame mf = null;
-	AddNewVehicleFrame avf = null;
-	int id;
+	private MainFrame mf = null;
+	private AddNewVehicleFrame avf = null;
+	private int id;
 	private JPasswordField newpasswordField;
 	private JPasswordField oldpasswordField;
 	private JLabel OldPassLabel;
@@ -101,7 +101,7 @@ public class DealerFrame extends JFrame {
 		revenueButton.setBounds(10, 10, 244, 34);
 		contentPane.add(revenueButton);
 		
-		JButton displayCustomerByPurchase = new JButton("Display Customers by Their Purchase");
+		JButton displayCustomerByPurchase = new JButton("Display Customers by Purchase");
 		displayCustomerByPurchase.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				textArea.setText(DealerSys.displayCustomersByExpense());
@@ -142,6 +142,7 @@ public class DealerFrame extends JFrame {
 		changeInfoButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				changeButtonPressed();
+				
 			}
 		});
 		changeInfoButton.setBounds(10, 277, 244, 21);
@@ -149,22 +150,22 @@ public class DealerFrame extends JFrame {
 		
 		newpasswordField = new JPasswordField();
 		newpasswordField.setVisible(false);
-		newpasswordField.setBounds(119, 346, 135, 19);
+		newpasswordField.setBounds(146, 346, 108, 19);
 		contentPane.add(newpasswordField);
 		
 		oldpasswordField = new JPasswordField();
 		oldpasswordField.setVisible(false);
-		oldpasswordField.setBounds(119, 317, 135, 19);
+		oldpasswordField.setBounds(146, 317, 108, 19);
 		contentPane.add(oldpasswordField);
 		
 		OldPassLabel = new JLabel("Enter old password");
 		OldPassLabel.setVisible(false);
-		OldPassLabel.setBounds(10, 320, 108, 13);
+		OldPassLabel.setBounds(10, 320, 135, 13);
 		contentPane.add(OldPassLabel);
 		
 		newPassLabel = new JLabel("Enter new password");
 		newPassLabel.setVisible(false);
-		newPassLabel.setBounds(10, 349, 108, 13);
+		newPassLabel.setBounds(10, 349, 135, 13);
 		contentPane.add(newPassLabel);
 		
 		SuccessfulLabel = new JLabel("Your pasword is succesfully changed");
@@ -229,7 +230,9 @@ public class DealerFrame extends JFrame {
 	
 	public void changeButtonPressed() {
 		newpasswordField.setVisible(true);
+		newpasswordField.setText("");
 		oldpasswordField.setVisible(true);
+		oldpasswordField.setText("");
 		OldPassLabel.setVisible(true);
 		newPassLabel.setVisible(true);
 		lastChangeButton.setVisible(true);
@@ -237,7 +240,9 @@ public class DealerFrame extends JFrame {
 	
 	public void clearAfterChange() {
 		newpasswordField.setVisible(false);
+		newpasswordField.setText("");
 		oldpasswordField.setVisible(false);
+		oldpasswordField.setText("");
 		OldPassLabel.setVisible(false);
 		newPassLabel.setVisible(false);
 		lastChangeButton.setVisible(false);

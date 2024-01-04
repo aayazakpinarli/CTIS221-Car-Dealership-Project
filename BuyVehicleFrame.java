@@ -25,7 +25,7 @@ public class BuyVehicleFrame extends JFrame {
 	private JButton buyButton;
 	private String money ="";
 	public CustomerFrame cf = null;
-	
+	JLabel moneyLabel;
 
 
 	/**
@@ -78,9 +78,9 @@ public class BuyVehicleFrame extends JFrame {
 		walletLabel.setBounds(295, 38, 122, 13);
 		contentPane.add(walletLabel);
 		
-		money += DealerSys.getCustomersMoney(
-				Integer.parseInt(id));
-		JLabel moneyLabel = new JLabel(money);
+
+		money = DealerSys.getCustomersMoney(Integer.parseInt(id));
+		moneyLabel = new JLabel(money);
 		moneyLabel.setBounds(424, 38, 102, 13);
 		contentPane.add(moneyLabel);
 		
@@ -105,7 +105,8 @@ public class BuyVehicleFrame extends JFrame {
 						CarId.setModel(new DefaultComboBoxModel(DealerSys.getVehicleIdonSale()));
 					} else {
 						textArea.setText("You have not enough money in your wallet to buy this car.");
-					}				
+					}		
+					
 			}
 		});
 		buyButton.setBounds(295, 198, 268, 35);
@@ -126,5 +127,10 @@ public class BuyVehicleFrame extends JFrame {
 	
 	public JComboBox getComboBox() {
 		return CarId;
+	}
+	
+	public void setMoney(String id) {
+		money = DealerSys.getCustomersMoney(Integer.parseInt(id));
+		moneyLabel.setText(money);
 	}
 }

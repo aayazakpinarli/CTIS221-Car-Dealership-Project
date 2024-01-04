@@ -47,6 +47,8 @@ public class AddUserFrame extends JFrame {
 	private JLabel radioButtonLabel;
 	private TextArea textArea;
 	private int userId;
+	private JLabel mailLabel;
+	private JTextField mailField;
 	
 	/**
 	 * Launch the application.
@@ -81,7 +83,7 @@ public class AddUserFrame extends JFrame {
 		textArea = new TextArea();
 		textArea.setFont(new Font("Arial Black", Font.BOLD, 15));
 		textArea.setVisible(false);
-		textArea.setBounds(20, 55, 402, 261);
+		textArea.setBounds(10, 59, 423, 286);
 		contentPane.add(textArea);
 		
 		JLabel nameLabel = new JLabel("Enter your name and surname : ");
@@ -162,48 +164,58 @@ public class AddUserFrame extends JFrame {
 		
 		moneyLabel = new JLabel("Wallet Money : ");
 		moneyLabel.setVisible(false);
-		moneyLabel.setBounds(26, 267, 221, 13);
+		moneyLabel.setBounds(26, 278, 221, 13);
 		contentPane.add(moneyLabel);
 		
 		moneyField = new JTextField();
 		moneyField.setVisible(false);
-		moneyField.setBounds(257, 261, 165, 19);
+		moneyField.setBounds(257, 272, 165, 19);
 		contentPane.add(moneyField);
 		moneyField.setColumns(10);
 		
 		walletVerifyLabel = new JLabel("If you want to add money to your online wallet, you will enter your");
 		walletVerifyLabel.setVisible(false);
-		walletVerifyLabel.setBounds(26, 290, 396, 13);
+		walletVerifyLabel.setBounds(26, 301, 396, 13);
 		contentPane.add(walletVerifyLabel);
 		
 		walletVerifyLabel2 = new JLabel("credit/debit card information on the page that opens after registration.");
 		walletVerifyLabel2.setVisible(false);
 		walletVerifyLabel2.setBackground(new Color(240, 240, 240));
-		walletVerifyLabel2.setBounds(26, 303, 396, 13);
+		walletVerifyLabel2.setBounds(26, 314, 396, 13);
 		contentPane.add(walletVerifyLabel2);
 		
 		fillLabel = new JLabel("Please Fill All the Labels !!!");
 		fillLabel.setVisible(false);
-		fillLabel.setBounds(26, 321, 342, 13);
+		fillLabel.setBounds(26, 332, 342, 13);
 		contentPane.add(fillLabel);
 		
 		passMatchLabel = new JLabel("Passwords are NOT matched !!!");
 		passMatchLabel.setVisible(false);
-		passMatchLabel.setBounds(26, 321, 342, 13);
+		passMatchLabel.setBounds(26, 332, 396, 13);
 		contentPane.add(passMatchLabel);
 		
 		successLabel = new JLabel("You have successfully registered to the system.");
 		successLabel.setVisible(false);
 		successLabel.setBounds(26, 63, 396, 13);
 		contentPane.add(successLabel);
-			
+
+		
+		mailLabel = new JLabel("Enter your mail account : ");
+		mailLabel.setBounds(26, 255, 201, 13);
+		contentPane.add(mailLabel);
+		
+		mailField = new JTextField();
+		mailField.setBounds(257, 248, 165, 19);
+		contentPane.add(mailField);
+		mailField.setColumns(10);
+		
 		
 		
 		signUpButton = new JButton("SIGN UP");
 		signUpButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(nameField.getText().equals("") && phoneField.getText().equals("") && addressField.getText().equals("") 
-						&& passField.getText().equals("") && verifyPassField.getText().equals("")) {
+				if(nameField.getText().equals("") || phoneField.getText().equals("") || addressField.getText().equals("") 
+						|| passField.getText().equals("") || verifyPassField.getText().equals("") || mailField.getText().equals("")) {
 					passMatchLabel.setVisible(false);
 					fillLabel.setVisible(true);			
 				} else {
@@ -213,10 +225,10 @@ public class AddUserFrame extends JFrame {
 					} else {
 						passMatchLabel.setVisible(false);
 						if(customerRadioButton.isSelected()) {
-							userId = DealerSys.addCustomer(nameField.getText(), phoneField.getText(),addressField.getText(), passField.getText(),moneyField.getText() );
+							userId = DealerSys.addCustomer(nameField.getText(), phoneField.getText(),addressField.getText(), passField.getText(),moneyField.getText(), mailField.getText() );
 						} else if(dealerRadioButton.isSelected()) {
 							clearCustomerSelected();
-							userId = DealerSys.addDealer(nameField.getText(), phoneField.getText(),addressField.getText(), passField.getText());
+							userId = DealerSys.addDealer(nameField.getText(), phoneField.getText(),addressField.getText(), passField.getText(),  mailField.getText() );
 						} else {
 							radioButtonLabel.setVisible(true);
 						}
@@ -226,7 +238,7 @@ public class AddUserFrame extends JFrame {
 				}
 			}
 		});
-		signUpButton.setBounds(203, 340, 165, 21);
+		signUpButton.setBounds(257, 359, 165, 21);
 		contentPane.add(signUpButton);
 		
 		closeButton = new JButton("Close");
@@ -238,7 +250,7 @@ public class AddUserFrame extends JFrame {
 		});
 		closeButton.setBounds(337, 32, 85, 21);
 		contentPane.add(closeButton);
-		
+
 
 
 
