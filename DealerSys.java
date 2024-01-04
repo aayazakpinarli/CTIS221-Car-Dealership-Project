@@ -36,7 +36,7 @@ public class DealerSys {
 			Customer c = new Customer(Integer.parseInt(data[0]), 
 			data[1], data[2], data[3],
 			 "customer", 
-			 Integer.parseInt(data[4]), w , data[7], data[8]);
+			 Integer.parseInt(data[4]), w , data[7], data[8], data[9]);
 			customers.add(c);
 		}
 		myReader.close();
@@ -75,7 +75,7 @@ public class DealerSys {
 		Scanner myReader = new Scanner(myObj);
 		while (myReader.hasNextLine()) {
 			String[] data = myReader.nextLine().split(SPLIT);
-			Dealer d = new Dealer(Integer.parseInt(data[0]), data[1], data[2], data[3], "dealer", data[4]);
+			Dealer d = new Dealer(Integer.parseInt(data[0]), data[1], data[2], data[3], "dealer", data[4], data[5]);
 			ArrayList<Vehicle> alAnkara = new ArrayList<>();
 			ArrayList<Vehicle> alIstanbul = new ArrayList<>();
 			ArrayList<Vehicle> alIzmir = new ArrayList<>();
@@ -141,11 +141,8 @@ public class DealerSys {
 	
 	public static void addMoneyToWallet(int customerId, String money) {
 		double m = Double.parseDouble(money);
-		for(Customer c : customers) {
-			if(c.getId() == customerId) {
-				c.addWallet(m);
-			}
-		}
+		Customer c = searchCustomer(customerId);
+		c.getWallet().addMoney(m);
 	}
 
 	public static boolean checkCustomerId(int id) {
@@ -170,7 +167,7 @@ public class DealerSys {
 		return res;
 	}
 	
-	public static int addCustomer( String name, String phone, String address, String password, String walletMoney) {
+	public static int addCustomer( String name, String phone, String address, String password, String walletMoney, String mail) {
 
 		boolean flag = true;
 		int id = (int)Math.floor(Math.random() * 35 + 100);
@@ -187,7 +184,7 @@ public class DealerSys {
 			}
 		}
 
-		Customer newCustomer = new Customer(id,name,phone,address, "customer", password, Double.parseDouble(walletMoney));
+		Customer newCustomer = new Customer(id,name,phone,address, "customer", password, Double.parseDouble(walletMoney), mail);
 		customers.add(newCustomer);
 		return id;
 	}
@@ -201,20 +198,6 @@ public class DealerSys {
 				return c;
 		}
 		return null;
-	}
-	
-	
-	public static Customer deleteCustomer(int id) {
-		Customer c;
-		for(int i = 0 ; i < customers.size() ; i++) {
-			c = customers.get(i);
-			if(id == c.getId())
-			{
-				customers.remove(i);
-				return c;
-			}
-		}
-		return null;	
 	}
 	
 	
@@ -306,6 +289,7 @@ public class DealerSys {
 	}
 	
 	public static boolean changePassword(Object c, String oldPass, String newPass) {
+		
 		if(c instanceof Customer) {
 			if(oldPass.equals(((Customer) c).getPassword())) {
 				((Customer) c).setPassword(newPass);
@@ -344,7 +328,7 @@ public class DealerSys {
 	}
 	
 	
-	public static int addDealer(String name, String phone, String address, String password) {
+	public static int addDealer(String name, String phone, String address, String password, String mail) {
 		
 		ArrayList<Vehicle> v = new ArrayList<>();
 		int id = (int)Math.floor(Math.random() * 35 + 1);
@@ -361,7 +345,7 @@ public class DealerSys {
 			d = dealers.keySet();
 		}
 		
-		Dealer newDealer = new Dealer(id,name,phone,address, "dealer", password);
+		Dealer newDealer = new Dealer(id,name,phone,address, "dealer", password, mail);
 		dealers.put(newDealer, v);
 		
 		return id;
@@ -380,18 +364,6 @@ public class DealerSys {
 			}
 		}
 		return null;
-	}
-	
-	
-	public static Dealer deleteDealer(int id) {
-		Integer idn = id;
-		Dealer d = searchDealer(idn.toString());
-		if(d != null) {
-			dealers.remove(d);
-			return d;
-		}
-
-		return null;	
 	}
 	
 	

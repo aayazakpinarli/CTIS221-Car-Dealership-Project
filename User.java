@@ -9,19 +9,17 @@ public abstract class User {
 	private String address;
 	private String userType;
 	private String password;
+	private String mail;
 	
-	public User() {
-		
-	}
 
-
-	public User(int id, String nameSurname, String phoneNum, String address, String userType, String password) {
+	public User(int id, String nameSurname, String phoneNum, String address, String userType, String password, String mail) {
 		this.id = id;
 		this.nameSurname = nameSurname;
 		this.phoneNum = phoneNum;
 		this.address = address;
 		this.userType = userType;
 		this.password = password;
+		this.mail = mail;
 	}
 
 
@@ -83,6 +81,14 @@ public abstract class User {
 		this.password = password;
 	}
 
+	public String getMail() {
+		return mail;
+	}
+
+
+	public void setMail(String mail) {
+		this.mail = mail;
+	}
 
 	@Override
 	public String toString() {
