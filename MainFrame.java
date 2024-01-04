@@ -44,7 +44,10 @@ public class MainFrame extends JFrame {
 			cf.setVisible(true);
 		}
 	}
-	AddUserFrame af = new AddUserFrame(this);
+	
+	
+	private AddUserFrame af = new AddUserFrame(this);
+	private ForgetPasswordFrame ff = new ForgetPasswordFrame(this);
 	private JPasswordField passwordField;
 	
 	
@@ -132,9 +135,11 @@ public class MainFrame extends JFrame {
 					} else if(out.equalsIgnoreCase("dealer") && passwordField.getText().equals(DealerSys.searchDealer(idField.getText()).getPassword())) {
 						CreateDealerFrame();
 						setVisible(false);
+						clear();
 					} else if(out.equals("customer") && passwordField.getText().equals(DealerSys.searchCustomer(Integer.parseInt(idField.getText())).getPassword())) {
 						CreateCustomerFrame();
 						setVisible(false);
+						clear();
 					} else { // password is wrong
 						wrongLabel.setVisible(true);
 						fillMessageLabel.setVisible(false);
@@ -150,6 +155,7 @@ public class MainFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				af.setVisible(true);
 				setVisible(false);
+				clear();
 			}
 		});
 		CreateNewUserButton.setBackground(new Color(51, 221, 200));
@@ -162,6 +168,7 @@ public class MainFrame extends JFrame {
 			public void keyPressed(KeyEvent e) {
 				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
 					loginButton.doClick();
+					clear();
 				}
 			}
 		});
@@ -176,16 +183,18 @@ public class MainFrame extends JFrame {
 		ForgotButton.setBackground(new Color(51, 221, 200));
 		ForgotButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				ff.setVisible(true);
+				setVisible(false);
+				clear();
 			}
 		});
 		ForgotButton.setBounds(247, 168, 102, 21);
 		MainFrame.add(ForgotButton);
-		
 
+	}
 	
-		
-
-
+	public void clear() {
+		idField.setText("");
+		passwordField.setText("");
 	}
 }
