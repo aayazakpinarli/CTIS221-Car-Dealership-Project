@@ -13,16 +13,6 @@ public class Vehicle {
 	private String salesStatus;
 	
 
-	public Vehicle() {
-		
-	}
-
-	public Vehicle(int id, String registrationNumber, double price) {
-		this.id = id;
-		this.registrationNumber = registrationNumber;
-		this.price = price;
-	}
-
 	public Vehicle(int id, String registrationNumber, String brand, 
 			String model, int modelYear, double price) {
 		

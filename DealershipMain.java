@@ -9,5 +9,6 @@ public class DealershipMain {
         DealerSys.readFromFile();
         MainFrame mf = new MainFrame();
         mf.setVisible(true);
+        
     }
-}
+} 

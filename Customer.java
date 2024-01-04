@@ -15,37 +15,25 @@ public class Customer extends User implements Comparable<Customer> {
 	private String saleDate;
 	private Wallet wallet;
 	
-	public Customer() {
-		
-	}
-
-	public Customer(int carId, double expense) {
-		
-		this.carId.add(carId);
-		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-		Date date = new Date();
-		this.saleDate = dateFormat.format(date);
-		wallet.purchase(expense);
-	}
 
 	public Customer(int id, String nameSurname, String phoneNum, String address,
-					 String userType, String password) {
+					 String userType, String password, String mail) {
 
-		super(id, nameSurname, phoneNum, address, userType, password);
+		super(id, nameSurname, phoneNum, address, userType, password, mail);
 	}
 	
 	public Customer(int id, String nameSurname, String phoneNum, String address,
-			 String userType, String password, double walletMoney) {
+			 String userType, String password, double walletMoney, String mail) {
 	
-		super(id, nameSurname, phoneNum, address, userType, password);
+		super(id, nameSurname, phoneNum, address, userType, password, mail);
 		Wallet w = new Wallet(walletMoney, 0);
 		this.wallet = w;
 	}
 	
 	public Customer(int id, String nameSurname, String phoneNum, String address, 
-					String userType, int carId,Wallet wallet, String password) {
+					String userType, int carId,Wallet wallet, String password, String mail) {
 
-		super(id, nameSurname, phoneNum, address, userType, password);
+		super(id, nameSurname, phoneNum, address, userType, password, mail);
 		this.carId.add(carId);
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 		Date date = new Date();
@@ -54,9 +42,9 @@ public class Customer extends User implements Comparable<Customer> {
 	}
 
 	public Customer(int id, String nameSurname, String phoneNum, String address, 
-					String userType, int carId, Wallet wallet, String date, String password) {
+					String userType, int carId, Wallet wallet, String date, String password, String mail) {
 						
-		super(id, nameSurname, phoneNum, address, userType, password);
+		super(id, nameSurname, phoneNum, address, userType, password, mail);
 		this.carId.add(carId);
 		this.saleDate = date;
 		this.wallet = wallet;
@@ -87,9 +75,6 @@ public class Customer extends User implements Comparable<Customer> {
 		this.wallet = wallet;
 	}
 	
-	public void addWallet(double m) {
-		this.wallet.addMoney(m);
-	}
 
 	@Override
 	public String toString() {
